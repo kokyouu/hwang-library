@@ -1,7 +1,10 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import authors from '../assets/json/authors.json'
 import bookstores from '../assets/json/bookstores.json'
+
+const showBookstores = ref(true)
+const showMessage = ref(false)
 
 const getWorkTitle = (work) => {
   if (typeof work === 'string') {
@@ -186,6 +189,61 @@ const authorById = computed(() =>
         </ul>
       </div>
     </section>
+
+    <section class="activity-section">
+      <h2>Activity 11: v-if - Search Result Display</h2>
+      <p>
+        This section uses v-if and v-else to display whether the searched author exists.
+      </p>
+
+      <div v-if="searchedAuthor" class="result-box">
+        Search successful:
+        <strong>{{ searchedAuthor.name }}</strong>
+        is available in the dataset.
+      </div>
+
+      <div v-else class="warning-box">
+        The searched author is not available in the dataset.
+      </div>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 12: v-show - Toggle Bookstore List</h2>
+      <p>
+        This section uses v-show to show or hide the bookstore list.
+      </p>
+
+      <button class="primary-button" @click="showBookstores = !showBookstores">
+        Toggle Bookstores
+      </button>
+
+      <div v-show="showBookstores" class="bookstore-box">
+        <ul>
+          <li v-for="store in bookstores" :key="store.id">
+            {{ store.name }} - {{ getBookstoreLocation(store) }}
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 13: v-if and v-else - Toggle Message</h2>
+      <p>
+        This section uses v-if and v-else to toggle message visibility.
+      </p>
+
+      <button class="primary-button" @click="showMessage = !showMessage">
+        Toggle Message
+      </button>
+
+      <p v-if="showMessage" class="message success">
+        ✨ You're a Vue superstar! ✨
+      </p>
+
+      <p v-else class="message">
+        Click the button to see a message.
+      </p>
+    </section>
   </main>
 </template>
 
@@ -244,6 +302,39 @@ const authorById = computed(() =>
   border: 1px solid #d0d0d0;
   border-radius: 8px;
   background-color: #fafafa;
+}
+
+.primary-button {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #35495e;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.bookstore-box {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f8f8f8;
+}
+
+.message {
+  margin-top: 16px;
+  font-size: 18px;
+}
+
+.success {
+  color: #2f7d4e;
+  background-color: #e8f7ef;
+  border: 1px solid #42b883;
+  padding: 12px;
+  border-radius: 6px;
 }
 
 li {
