@@ -1,1 +1,80 @@
-[]
+[
+    {
+        "id": 1,
+        "name": "George Orwell",
+        "birthYear": 1903,
+        "famousWorks": [
+            {
+                "title": "1984"
+            },
+            {
+                "title": "Animal Farm"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Jane Austen",
+        "birthYear": 1775,
+        "famousWorks": [
+            {
+                "title": "Pride and Prejudice"
+            },
+            {
+                "title": "Sense and Sensibility"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Mark Twain",
+        "birthYear": 1835,
+        "famousWorks": [
+            {
+                "title": "The Adventures of Tom Sawyer"
+            },
+            {
+                "title": "Adventures of Huckleberry Finn"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Virginia Woolf",
+        "birthYear": 1882,
+        "famousWorks": [
+            {
+                "title": "Mrs Dalloway"
+            },
+            {
+                "title": "To the Lighthouse"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "J.K. Rowling",
+        "birthYear": 1965,
+        "famousWorks": [
+            {
+                "title": "Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "title": "Harry Potter and the Chamber of Secrets"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Ernest Hemingway",
+        "birthYear": 1899,
+        "famousWorks": [
+            {
+                "title": "The Old Man and the Sea"
+            },
+            {
+                "title": "A Farewell to Arms"
+            }
+        ]
+    }
+]

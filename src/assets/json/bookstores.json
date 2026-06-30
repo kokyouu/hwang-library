@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "id": 1,
+        "name": "City Library Bookstore",
+        "location": "Melbourne CBD"
+    },
+    {
+        "id": 2,
+        "name": "Readings Carlton",
+        "location": "Carlton"
+    },
+    {
+        "id": 3,
+        "name": "Academic Books Hub",
+        "location": "Clayton"
+    },
+    {
+        "id": 4,
+        "name": "Campus Book Corner",
+        "location": "Caulfield"
+    }
+]

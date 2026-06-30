@@ -35,6 +35,8 @@ const searchedAuthor = computed(() =>
 const authorById = computed(() =>
   authors.find((author) => author.id === 1)
 )
+
+const isGeorgeOrwell = (author) => author.name === 'George Orwell'
 </script>
 
 <template>
@@ -118,10 +120,17 @@ const authorById = computed(() =>
       <h2>Activity 6: Render All Authors with v-for</h2>
       <p>
         This section uses v-for to render all authors and their birth years.
+        George Orwell is highlighted using binding.
       </p>
 
       <ul>
-        <li v-for="author in authors" :key="author.id">
+        <li
+          v-for="author in authors"
+          :key="author.id"
+          :title="isGeorgeOrwell(author) ? 'Highlighted author: George Orwell' : 'Regular author'"
+          :class="{ highlightedAuthor: isGeorgeOrwell(author) }"
+          :style="isGeorgeOrwell(author) ? { fontWeight: 'bold', fontSize: '20px' } : {}"
+        >
           {{ author.name }} ({{ author.birthYear }})
         </li>
       </ul>
@@ -244,6 +253,25 @@ const authorById = computed(() =>
         Click the button to see a message.
       </p>
     </section>
+
+    <section class="activity-section">
+      <h2>Task 2.2: Attribute, Class and Style Bindings</h2>
+      <p>
+        George Orwell is highlighted using attribute binding, class binding and style binding.
+      </p>
+
+      <ul>
+        <li
+          v-for="author in authors"
+          :key="'highlight-' + author.id"
+          :title="isGeorgeOrwell(author) ? 'Highlighted author: George Orwell' : 'Regular author'"
+          :class="{ highlightedAuthor: isGeorgeOrwell(author) }"
+          :style="isGeorgeOrwell(author) ? { fontWeight: 'bold', fontSize: '20px' } : {}"
+        >
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
+    </section>
   </main>
 </template>
 
@@ -334,6 +362,13 @@ const authorById = computed(() =>
   background-color: #e8f7ef;
   border: 1px solid #42b883;
   padding: 12px;
+  border-radius: 6px;
+}
+
+.highlightedAuthor {
+  background-color: #fff3cd;
+  border: 2px solid #f0ad4e;
+  padding: 8px;
   border-radius: 6px;
 }
 
