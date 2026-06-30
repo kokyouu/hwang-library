@@ -1,6 +1,33 @@
 <script setup>
+import { computed } from 'vue'
 import authors from '../assets/json/authors.json'
 import bookstores from '../assets/json/bookstores.json'
+
+const getWorkTitle = (work) => {
+  if (typeof work === 'string') {
+    return work
+  }
+
+  return work.title
+}
+
+const modernAuthors = computed(() =>
+  authors.filter((author) => author.birthYear > 1850)
+)
+
+const allFamousWorks = computed(() =>
+  authors.flatMap((author) =>
+    author.famousWorks.map((work) => getWorkTitle(work))
+  )
+)
+
+const searchedAuthor = computed(() =>
+  authors.find((author) => author.name === 'George Orwell')
+)
+
+const authorById = computed(() =>
+  authors.find((author) => author.id === 1)
+)
 </script>
 
 <template>
@@ -23,6 +50,62 @@ import bookstores from '../assets/json/bookstores.json'
         <p>{{ bookstores.length }}</p>
       </div>
     </section>
+
+    <section class="activity-section">
+      <h2>Activity 2: Authors Born After 1850</h2>
+      <p>
+        This section uses a computed property to filter authors born after 1850.
+      </p>
+
+      <ul>
+        <li v-for="author in modernAuthors" :key="author.id">
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 3: All Famous Works</h2>
+      <p>
+        This section uses a computed property to collect all famous works.
+      </p>
+
+      <ul>
+        <li v-for="work in allFamousWorks" :key="work">
+          {{ work }}
+        </li>
+      </ul>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 4: Search Author by Name</h2>
+      <p>
+        This section searches for the author named George Orwell.
+      </p>
+
+      <p v-if="searchedAuthor" class="result-box">
+        {{ searchedAuthor.name }} was born in {{ searchedAuthor.birthYear }}.
+      </p>
+
+      <p v-else class="warning-box">
+        George Orwell was not found.
+      </p>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 5: Search Author by ID</h2>
+      <p>
+        This section searches for the author with ID 1.
+      </p>
+
+      <p v-if="authorById" class="result-box">
+        Author ID 1: {{ authorById.name }} ({{ authorById.birthYear }})
+      </p>
+
+      <p v-else class="warning-box">
+        Author ID 1 was not found.
+      </p>
+    </section>
   </main>
 </template>
 
@@ -33,6 +116,7 @@ import bookstores from '../assets/json/bookstores.json'
   padding: 24px;
   font-family: Arial, Helvetica, sans-serif;
   color: #222;
+  line-height: 1.6;
 }
 
 .activity-section {
@@ -58,5 +142,23 @@ import bookstores from '../assets/json/bookstores.json'
   margin: 0;
   font-size: 24px;
   font-weight: bold;
+}
+
+.result-box {
+  padding: 12px;
+  border: 1px solid #42b883;
+  border-radius: 6px;
+  background-color: #e8f7ef;
+}
+
+.warning-box {
+  padding: 12px;
+  border: 1px solid #f0ad4e;
+  border-radius: 6px;
+  background-color: #fff3cd;
+}
+
+li {
+  margin-bottom: 8px;
 }
 </style>
