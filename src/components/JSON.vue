@@ -11,6 +11,10 @@ const getWorkTitle = (work) => {
   return work.title
 }
 
+const getBookstoreLocation = (store) => {
+  return store.location || store.address || store.city || 'Location not provided'
+}
+
 const modernAuthors = computed(() =>
   authors.filter((author) => author.birthYear > 1850)
 )
@@ -106,6 +110,82 @@ const authorById = computed(() =>
         Author ID 1 was not found.
       </p>
     </section>
+
+    <section class="activity-section">
+      <h2>Activity 6: Render All Authors with v-for</h2>
+      <p>
+        This section uses v-for to render all authors and their birth years.
+      </p>
+
+      <ul>
+        <li v-for="author in authors" :key="author.id">
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 7: Render Authors Born After 1850</h2>
+      <p>
+        This section renders the computed property modernAuthors using v-for.
+      </p>
+
+      <ul>
+        <li v-for="author in modernAuthors" :key="author.id">
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 8: Render All Famous Works</h2>
+      <p>
+        This section renders the computed property allFamousWorks using v-for.
+      </p>
+
+      <ul>
+        <li v-for="work in allFamousWorks" :key="work">
+          {{ work }}
+        </li>
+      </ul>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 9: Render Bookstores</h2>
+      <p>
+        This section uses v-for to display bookstore data.
+      </p>
+
+      <ul>
+        <li v-for="store in bookstores" :key="store.id">
+          {{ store.name }} - {{ getBookstoreLocation(store) }}
+        </li>
+      </ul>
+    </section>
+
+    <section class="activity-section">
+      <h2>Activity 10: Nested v-for - Authors and Famous Works</h2>
+      <p>
+        This section uses nested v-for to display each author and their famous works.
+      </p>
+
+      <div
+        v-for="author in authors"
+        :key="author.id"
+        class="author-card"
+      >
+        <h3>{{ author.name }}</h3>
+
+        <ul>
+          <li
+            v-for="work in author.famousWorks"
+            :key="author.id + '-' + getWorkTitle(work)"
+          >
+            {{ getWorkTitle(work) }}
+          </li>
+        </ul>
+      </div>
+    </section>
   </main>
 </template>
 
@@ -156,6 +236,14 @@ const authorById = computed(() =>
   border: 1px solid #f0ad4e;
   border-radius: 6px;
   background-color: #fff3cd;
+}
+
+.author-card {
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  background-color: #fafafa;
 }
 
 li {
