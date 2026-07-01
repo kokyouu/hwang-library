@@ -1,79 +1,58 @@
 [
     {
         "id": 1,
-        "name": "George Orwell",
-        "birthYear": 1903,
+        "name": "Jane Austen",
+        "birthYear": 1775,
+        "genres": [
+            "Romance",
+            "Social commentary"
+        ],
         "famousWorks": [
             {
-                "title": "1984"
+                "title": "Pride and Prejudice",
+                "year": 1813
             },
             {
-                "title": "Animal Farm"
+                "title": "Sense and Sensibility",
+                "year": 1811
             }
         ]
     },
     {
         "id": 2,
-        "name": "Jane Austen",
-        "birthYear": 1775,
+        "name": "George Orwell",
+        "birthYear": 1903,
+        "genres": [
+            "Dystopian",
+            "Political satire"
+        ],
         "famousWorks": [
             {
-                "title": "Pride and Prejudice"
+                "title": "1984",
+                "year": 1949
             },
             {
-                "title": "Sense and Sensibility"
+                "title": "Animal Farm",
+                "year": 1945
             }
         ]
     },
     {
         "id": 3,
-        "name": "Mark Twain",
-        "birthYear": 1835,
+        "name": "Agatha Christie",
+        "birthYear": 1890,
+        "genres": [
+            "Mystery",
+            "Crime fiction"
+        ],
         "famousWorks": [
             {
-                "title": "The Adventures of Tom Sawyer"
+                "title": "Murder on the Orient Express",
+                "year": 1934
             },
             {
-                "title": "Adventures of Huckleberry Finn"
-            }
-        ]
-    },
-    {
-        "id": 4,
-        "name": "Virginia Woolf",
-        "birthYear": 1882,
-        "famousWorks": [
-            {
-                "title": "Mrs Dalloway"
-            },
-            {
-                "title": "To the Lighthouse"
-            }
-        ]
-    },
-    {
-        "id": 5,
-        "name": "J.K. Rowling",
-        "birthYear": 1965,
-        "famousWorks": [
-            {
-                "title": "Harry Potter and the Philosopher's Stone"
-            },
-            {
-                "title": "Harry Potter and the Chamber of Secrets"
-            }
-        ]
-    },
-    {
-        "id": 6,
-        "name": "Ernest Hemingway",
-        "birthYear": 1899,
-        "famousWorks": [
-            {
-                "title": "The Old Man and the Sea"
-            },
-            {
-                "title": "A Farewell to Arms"
+                "title": "Death on the Nile",
+                "year": 1937
             }
         ]
     }
