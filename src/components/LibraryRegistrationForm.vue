@@ -14,7 +14,6 @@
           @submit.prevent="submitForm"
           novalidate
         >
-          <!-- Row 1: Username and Gender -->
           <div class="row mb-3">
             <div class="col-md-6 col-sm-6">
               <label
@@ -64,18 +63,9 @@
                 >
                   Please select a gender
                 </option>
-
-                <option value="male">
-                  Male
-                </option>
-
-                <option value="female">
-                  Female
-                </option>
-
-                <option value="other">
-                  Other
-                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
 
               <div
@@ -87,7 +77,6 @@
             </div>
           </div>
 
-          <!-- Row 2: Password and Confirm Password -->
           <div class="row mb-3">
             <div class="col-md-6 col-sm-6">
               <label
@@ -143,7 +132,6 @@
             </div>
           </div>
 
-          <!-- Australian Resident -->
           <div class="mb-3">
             <div class="form-check">
               <input
@@ -171,7 +159,6 @@
             </div>
           </div>
 
-          <!-- Reason -->
           <div class="mb-3">
             <label
               for="reason"
@@ -191,11 +178,20 @@
             ></textarea>
 
             <div class="d-flex justify-content-between">
-              <div
-                v-if="errors.reason"
-                class="text-danger validation-message"
-              >
-                {{ errors.reason }}
+              <div>
+                <div
+                  v-if="errors.reason"
+                  class="text-danger validation-message"
+                >
+                  {{ errors.reason }}
+                </div>
+
+                <div
+                  v-if="success.reason"
+                  class="text-success validation-message"
+                >
+                  {{ success.reason }}
+                </div>
               </div>
 
               <span class="ms-auto text-muted">
@@ -204,7 +200,6 @@
             </div>
           </div>
 
-          <!-- Buttons -->
           <div class="text-center">
             <button
               type="submit"
@@ -225,7 +220,6 @@
       </div>
     </div>
 
-    <!-- PrimeVue DataTable -->
     <section class="mt-5">
       <h2 class="mb-3">
         This is a PrimeVue DataTable.
@@ -239,38 +233,21 @@
           striped-rows
           table-style="min-width: 50rem"
         >
-          <Column
-            field="username"
-            header="Username"
-          />
+          <Column field="username" header="Username" />
+          <Column field="password" header="Password" />
 
-          <Column
-            field="password"
-            header="Password"
-          />
-
-          <Column
-            header="Australian Resident"
-          >
+          <Column header="Australian Resident">
             <template #body="{ data }">
               {{ data.isAustralian ? 'Yes' : 'No' }}
             </template>
           </Column>
 
-          <Column
-            field="gender"
-            header="Gender"
-          />
-
-          <Column
-            field="reason"
-            header="Reason"
-          />
+          <Column field="gender" header="Gender" />
+          <Column field="reason" header="Reason" />
         </DataTable>
       </div>
     </section>
 
-    <!-- Bootstrap Cards -->
     <section
       v-if="submittedCards.length > 0"
       class="d-flex flex-wrap mt-4"
@@ -288,20 +265,16 @@
           <li class="list-group-item">
             Username: {{ card.username }}
           </li>
-
           <li class="list-group-item">
             Password: {{ card.password }}
           </li>
-
           <li class="list-group-item">
             Australian Resident:
             {{ card.isAustralian ? 'Yes' : 'No' }}
           </li>
-
           <li class="list-group-item">
             Gender: {{ card.gender }}
           </li>
-
           <li class="list-group-item">
             Reason: {{ card.reason }}
           </li>
@@ -334,6 +307,10 @@ const errors = ref({
   reason: null
 })
 
+const success = ref({
+  reason: null
+})
+
 const submittedCards = ref([])
 
 let nextId = 1
@@ -346,7 +323,6 @@ const validateName = (blur) => {
       errors.value.username =
         'Name must be at least 3 characters.'
     }
-
     return false
   }
 
@@ -356,7 +332,6 @@ const validateName = (blur) => {
 
 const validatePassword = (blur) => {
   const password = formData.value.password
-
   const hasUppercase = /[A-Z]/.test(password)
   const hasLowercase = /[a-z]/.test(password)
   const hasNumber = /\d/.test(password)
@@ -386,7 +361,6 @@ const validatePassword = (blur) => {
     if (blur) {
       errors.value.password = message
     }
-
     return false
   }
 
@@ -394,10 +368,6 @@ const validatePassword = (blur) => {
   return true
 }
 
-/**
- * Checks whether Password and Confirm Password match.
- * Validation is displayed when Confirm Password loses focus.
- */
 const validateConfirmPassword = (blur) => {
   if (
     formData.value.password !==
@@ -407,7 +377,6 @@ const validateConfirmPassword = (blur) => {
       errors.value.confirmPassword =
         'Passwords do not match.'
     }
-
     return false
   }
 
@@ -421,7 +390,6 @@ const validateResident = (blur) => {
       errors.value.resident =
         'Please confirm your Australian resident status.'
     }
-
     return false
   }
 
@@ -435,7 +403,6 @@ const validateGender = (blur) => {
       errors.value.gender =
         'Please select a gender.'
     }
-
     return false
   }
 
@@ -445,7 +412,6 @@ const validateGender = (blur) => {
 
 const validateReason = (blur) => {
   const reason = formData.value.reason.trim()
-
   let message = null
 
   if (reason.length < 10) {
@@ -461,10 +427,19 @@ const validateReason = (blur) => {
       errors.value.reason = message
     }
 
+    success.value.reason = null
     return false
   }
 
   errors.value.reason = null
+
+  if (/\bfriend\b/i.test(reason)) {
+    success.value.reason =
+      'Great to have a friend'
+  } else {
+    success.value.reason = null
+  }
+
   return true
 }
 
@@ -515,6 +490,8 @@ const clearForm = () => {
     gender: null,
     reason: null
   }
+
+  success.value.reason = null
 }
 </script>
 
