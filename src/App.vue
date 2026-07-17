@@ -1,45 +1,37 @@
 <script setup>
-import JSONLab from './components/JSONLab.vue'
 import BHeader from './components/BHeader.vue'
-import LibraryRegistrationForm from './components/LibraryRegistrationForm.vue'
 </script>
 
 <template>
-  <header>
+  <div class="app-container">
     <BHeader />
-  </header>
 
-  <main>
-    <LibraryRegistrationForm />
-    <!-- <JSONLab /> -->
-  </main>
+    <main class="main-content">
+      <RouterView />
+    </main>
+  </div>
 </template>
 
-<style scoped>
-/* header {
-  line-height: 1.5;
+<style>
+* {
+  box-sizing: border-box;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+html,
+body,
+#app {
+  min-height: 100%;
+  margin: 0;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+body {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-} */
+.main-content {
+  padding-bottom: 4rem;
+}
 </style>
