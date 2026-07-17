@@ -200,6 +200,22 @@
             </div>
           </div>
 
+          <div class="mb-3">
+            <label
+              for="suburb"
+              class="form-label"
+            >
+              Suburb
+            </label>
+
+            <input
+              id="suburb"
+              type="text"
+              class="form-control"
+              v-bind:value="formData.suburb"
+            />
+          </div>
+          
           <div class="text-center">
             <button
               type="submit"
@@ -295,7 +311,8 @@ const formData = ref({
   confirmPassword: '',
   isAustralian: false,
   reason: '',
-  gender: ''
+  gender: '',
+  suburb: 'Clayton'
 })
 
 const errors = ref({
@@ -479,7 +496,8 @@ const clearForm = () => {
     confirmPassword: '',
     isAustralian: false,
     reason: '',
-    gender: ''
+    gender: '',
+    suburb: 'Clayton'
   }
 
   errors.value = {
