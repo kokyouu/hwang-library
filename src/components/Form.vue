@@ -1,104 +1,128 @@
 <template>
-  <div class="container mt-5">
-    <!-- User Information Form -->
+  <div class="container py-5">
     <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <h1 class="text-center mb-4">
-          User Information Form
-        </h1>
+      <div class="col-lg-10 col-xl-8 mx-auto">
+        <h1 class="text-center mb-4">User Information Form</h1>
 
-        <form @submit.prevent="submitForm">
+        <!-- novalidate disables browser-native validation.
+             This allows Vue validation messages to be displayed. -->
+        <form @submit.prevent="submitForm" novalidate>
           <!-- Username and Password -->
           <div class="row mb-3">
             <!-- Username -->
-            <div class="col-md-6 col-sm-6">
-              <label
-                for="username"
-                class="form-label"
-              >
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+              <label for="username" class="form-label">
                 Username
               </label>
 
               <input
                 id="username"
                 v-model="formData.username"
-                required
                 type="text"
                 class="form-control"
+                :class="{ 'is-invalid': errors.username }"
+                @blur="validateName(true)"
+                @input="validateName(false)"
               />
+
+              <div
+                v-if="errors.username"
+                class="text-danger validation-message"
+              >
+                {{ errors.username }}
+              </div>
             </div>
 
             <!-- Password -->
-            <div class="col-md-6 col-sm-6">
-              <label
-                for="password"
-                class="form-label"
-              >
+            <div class="col-md-6 col-sm-12">
+              <label for="password" class="form-label">
                 Password
               </label>
 
               <input
                 id="password"
                 v-model="formData.password"
-                required
-                minlength="4"
-                maxlength="10"
                 type="password"
                 class="form-control"
+                :class="{ 'is-invalid': errors.password }"
+                autocomplete="new-password"
+                @blur="validatePassword(true)"
+                @input="validatePassword(false)"
               />
+
+              <div
+                v-if="errors.password"
+                class="text-danger validation-message"
+              >
+                {{ errors.password }}
+              </div>
             </div>
           </div>
 
-          <!-- Australian Resident and Gender -->
+          <!-- Resident and Gender -->
           <div class="row mb-3">
             <!-- Australian Resident -->
-            <div class="col-md-6 col-sm-6">
-              <div class="form-check resident-field">
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+              <div class="form-check resident-checkbox">
                 <input
                   id="isAustralian"
                   v-model="formData.isAustralian"
                   type="checkbox"
                   class="form-check-input"
+                  :class="{ 'is-invalid': errors.isAustralian }"
+                  @change="validateResident(true)"
                 />
 
                 <label
-                  for="isAustralian"
                   class="form-check-label"
+                  for="isAustralian"
                 >
                   Australian Resident?
                 </label>
               </div>
+
+              <div
+                v-if="errors.isAustralian"
+                class="text-danger validation-message"
+              >
+                {{ errors.isAustralian }}
+              </div>
             </div>
 
             <!-- Gender -->
-            <div class="col-md-6 col-sm-6">
-              <label
-                for="gender"
-                class="form-label"
-              >
+            <div class="col-md-6 col-sm-12">
+              <label for="gender" class="form-label">
                 Gender
               </label>
 
-                <select
-                  class="form-select"
-                  id="gender"
-                  required
-                  v-model="formData.gender"
-                >
-                <option disabled value="">Please select a gender</option>
+              <select
+                id="gender"
+                v-model="formData.gender"
+                class="form-select"
+                :class="{ 'is-invalid': errors.gender }"
+                @blur="validateGender(true)"
+                @change="validateGender(true)"
+              >
+                <option disabled value="">
+                  Please select a gender
+                </option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
+
+              <div
+                v-if="errors.gender"
+                class="text-danger validation-message"
+              >
+                {{ errors.gender }}
+              </div>
             </div>
           </div>
 
-          <!-- Reason for joining -->
+          <!-- Reason -->
           <div class="mb-3">
-            <label
-              for="reason"
-              class="form-label"
-            >
+            <label for="reason" class="form-label">
               Reason for joining
             </label>
 
@@ -106,11 +130,27 @@
               id="reason"
               v-model="formData.reason"
               class="form-control"
-              required
-              minlength="10"
-              maxlength="200"
+              :class="{ 'is-invalid': errors.reason }"
               rows="3"
+              @blur="validateReason(true)"
+              @input="validateReason(false)"
             ></textarea>
+
+            <div class="d-flex justify-content-between">
+              <div
+                v-if="errors.reason"
+                class="text-danger validation-message"
+              >
+                {{ errors.reason }}
+              </div>
+
+              <div
+                class="form-text ms-auto"
+                :class="{ 'text-danger': formData.reason.length > 200 }"
+              >
+                {{ formData.reason.length }}/200
+              </div>
+            </div>
           </div>
 
           <!-- Buttons -->
@@ -134,45 +174,62 @@
       </div>
     </div>
 
-    <!-- Submitted Bootstrap Cards -->
+    <!-- PrimeVue DataTable -->
     <div
-      v-if="submittedCards.length > 0"
+      v-if="submittedUsers.length > 0"
       class="row mt-5"
     >
       <div class="col-12">
-        <div class="d-flex flex-wrap justify-content-start">
-          <div
-            v-for="card in submittedCards"
-            :key="card.id"
-            class="card user-card m-2"
+        <h2 class="text-center mb-4">
+          Submitted User Information
+        </h2>
+
+        <div class="table-wrapper">
+          <DataTable
+            :value="submittedUsers"
+            dataKey="id"
+            paginator
+            :rows="5"
+            stripedRows
+            showGridlines
+            tableStyle="min-width: 50rem"
           >
-            <div class="card-header">
-              User Information
-            </div>
+            <Column
+              field="username"
+              header="Username"
+              sortable
+            />
 
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                Username: {{ card.username }}
-              </li>
+            <Column
+              field="password"
+              header="Password"
+            />
 
-              <li class="list-group-item">
-                Password: {{ card.password }}
-              </li>
+            <Column
+              header="Australian Resident"
+              sortable
+              sortField="isAustralian"
+            >
+              <template #body="{ data }">
+                {{ data.isAustralian ? 'Yes' : 'No' }}
+              </template>
+            </Column>
 
-              <li class="list-group-item">
-                Australian Resident:
-                {{ card.isAustralian ? 'Yes' : 'No' }}
-              </li>
+            <Column
+              field="gender"
+              header="Gender"
+              sortable
+            >
+              <template #body="{ data }">
+                {{ formatGender(data.gender) }}
+              </template>
+            </Column>
 
-              <li class="list-group-item">
-                Gender: {{ card.gender }}
-              </li>
-
-              <li class="list-group-item">
-                Reason: {{ card.reason }}
-              </li>
-            </ul>
-          </div>
+            <Column
+              field="reason"
+              header="Reason"
+            />
+          </DataTable>
         </div>
       </div>
     </div>
@@ -180,13 +237,16 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 
 /*
- * Reactive object that stores the values entered
- * into the form.
+ * Returns a new empty object each time.
+ * This prevents old submitted records from being accidentally modified
+ * when the form is cleared.
  */
-const formData = reactive({
+const createEmptyForm = () => ({
   username: '',
   password: '',
   isAustralian: false,
@@ -194,86 +254,254 @@ const formData = reactive({
   reason: ''
 })
 
-/*
- * Stores all submitted user-information cards.
- */
-const submittedCards = ref([])
+const formData = ref(createEmptyForm())
+
+const submittedUsers = ref([])
+
+let nextId = 1
 
 /*
- * Provides a unique ID for each submitted card.
+ * Each property stores either:
+ * - null: no error
+ * - string: error message
  */
-let nextCardId = 1
+const errors = ref({
+  username: null,
+  password: null,
+  isAustralian: null,
+  gender: null,
+  reason: null
+})
 
 /*
- * Activity 1 intentionally contains no validation.
- * Even an empty form can be submitted.
+ * Validation 1: Username
+ * Requirement: at least 3 characters.
  */
-const submitForm = () => {
-  submittedCards.value.push({
-    id: nextCardId,
-    username: formData.username,
-    password: formData.password,
-    isAustralian: formData.isAustralian,
-    gender: formData.gender,
-    reason: formData.reason
-  })
+const validateName = (showError = true) => {
+  const username = formData.value.username.trim()
 
-  nextCardId += 1
+  if (username.length < 3) {
+    /*
+     * On blur or submit, show the error immediately.
+     * During input, update the message only if an error
+     * was already displayed.
+     */
+    if (showError || errors.value.username) {
+      errors.value.username =
+        'Name must be at least 3 characters.'
+    }
+
+    return false
+  }
+
+  errors.value.username = null
+  return true
 }
 
 /*
- * Clears the current form fields.
- * Submitted cards remain on the page.
+ * Validation 2: Password
+ * Requirements:
+ * - at least 8 characters
+ * - at least one uppercase letter
+ * - at least one lowercase letter
+ * - at least one number
+ * - at least one special character
+ */
+const validatePassword = (showError = true) => {
+  const password = formData.value.password
+  const minLength = 8
+
+  const hasUppercase = /[A-Z]/.test(password)
+  const hasLowercase = /[a-z]/.test(password)
+  const hasNumber = /\d/.test(password)
+  const hasSpecialCharacter =
+    /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+  let message = null
+
+  if (password.length < minLength) {
+    message =
+      `Password must be at least ${minLength} characters long.`
+  } else if (!hasUppercase) {
+    message =
+      'Password must contain at least one uppercase letter.'
+  } else if (!hasLowercase) {
+    message =
+      'Password must contain at least one lowercase letter.'
+  } else if (!hasNumber) {
+    message =
+      'Password must contain at least one number.'
+  } else if (!hasSpecialCharacter) {
+    message =
+      'Password must contain at least one special character.'
+  }
+
+  if (message) {
+    if (showError || errors.value.password) {
+      errors.value.password = message
+    }
+
+    return false
+  }
+
+  errors.value.password = null
+  return true
+}
+
+/*
+ * Validation 3: Australian Resident
+ *
+ * For this assessed lab, the checkbox must be selected.
+ * In a real application, Yes/No radio buttons would normally
+ * be better because "No" can also be a valid answer.
+ */
+const validateResident = (showError = true) => {
+  if (!formData.value.isAustralian) {
+    if (showError || errors.value.isAustralian) {
+      errors.value.isAustralian =
+        'Please confirm your Australian resident status.'
+    }
+
+    return false
+  }
+
+  errors.value.isAustralian = null
+  return true
+}
+
+/*
+ * Validation 4: Gender
+ * Requirement: one option must be selected.
+ */
+const validateGender = (showError = true) => {
+  if (!formData.value.gender) {
+    if (showError || errors.value.gender) {
+      errors.value.gender =
+        'Please select a gender.'
+    }
+
+    return false
+  }
+
+  errors.value.gender = null
+  return true
+}
+
+/*
+ * Validation 5: Reason
+ * Requirements:
+ * - cannot be empty
+ * - at least 10 characters
+ * - no more than 200 characters
+ */
+const validateReason = (showError = true) => {
+  const reason = formData.value.reason.trim()
+
+  let message = null
+
+  if (reason.length === 0) {
+    message =
+      'Please enter a reason for joining.'
+  } else if (reason.length < 10) {
+    message =
+      'Reason must be at least 10 characters.'
+  } else if (reason.length > 200) {
+    message =
+      'Reason must not exceed 200 characters.'
+  }
+
+  if (message) {
+    if (showError || errors.value.reason) {
+      errors.value.reason = message
+    }
+
+    return false
+  }
+
+  errors.value.reason = null
+  return true
+}
+
+/*
+ * Validate all five groups before adding a record.
+ */
+const submitForm = () => {
+  const validationResults = [
+    validateName(true),
+    validatePassword(true),
+    validateResident(true),
+    validateGender(true),
+    validateReason(true)
+  ]
+
+  const formIsValid =
+    validationResults.every((result) => result)
+
+  if (!formIsValid) {
+    return
+  }
+
+  /*
+   * Use a copied object rather than storing the formData object
+   * directly. Otherwise clearing the form could also clear
+   * previously submitted rows.
+   */
+  submittedUsers.value.push({
+    id: nextId,
+    username: formData.value.username.trim(),
+    password: formData.value.password,
+    isAustralian: formData.value.isAustralian,
+    gender: formData.value.gender,
+    reason: formData.value.reason.trim()
+  })
+
+  nextId += 1
+
+  clearForm()
+}
+
+/*
+ * Clear current input and validation errors.
+ * Submitted table records are preserved.
  */
 const clearForm = () => {
-  formData.username = ''
-  formData.password = ''
-  formData.isAustralian = false
-  formData.gender = ''
-  formData.reason = ''
+  formData.value = createEmptyForm()
+
+  errors.value = {
+    username: null,
+    password: null,
+    isAustralian: null,
+    gender: null,
+    reason: null
+  }
+}
+
+const formatGender = (gender) => {
+  if (!gender) {
+    return ''
+  }
+
+  return gender.charAt(0).toUpperCase() + gender.slice(1)
 }
 </script>
 
 <style scoped>
-/*
- * Align the checkbox with the Gender field.
- */
-.resident-field {
+.validation-message {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.resident-checkbox {
   margin-top: 2rem;
 }
 
-/*
- * Fixed width similar to the Bootstrap cards
- * shown in the lab guide.
- */
-.user-card {
-  width: 18rem;
-  border: 1px solid #dee2e6;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+.table-wrapper {
+  overflow-x: auto;
 }
 
-.card-header {
-  background-color: #3867d6;
-  color: white;
-  padding: 0.75rem;
-}
-
-.list-group-item {
-  padding: 0.75rem;
-}
-
-/*
- * On small screens, fields change to a vertical layout.
- */
 @media (max-width: 767.98px) {
-  .resident-field {
+  .resident-checkbox {
     margin-top: 0;
-  }
-
-  .col-sm-6 {
-    margin-bottom: 1rem;
   }
 }
 </style>
