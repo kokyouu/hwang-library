@@ -1,69 +1,79 @@
-import {
-    createRouter,
-    createWebHistory
-} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import LoginView from '../views/LoginView.vue'
 import AccessDeniedView from '../views/AccessDeniedView.vue'
 
+import FirebaseSigninView from '../views/FirebaseSigninView.vue'
+import FirebaseRegisterView from '../views/FirebaseRegisterView.vue'
+import FirebaseLogoutView from '../views/FirebaseLogoutView.vue'
+
 import { isAuthenticated } from '../auth'
 
 const routes = [
-    {
-        path: '/',
-        name: 'Home',
-        component: HomeView
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: AboutView,
-        meta: {
-            requiresAuth: true
-        }
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: LoginView
-    },
-    {
-        path: '/access-denied',
-        name: 'AccessDenied',
-        component: AccessDeniedView
+  {
+    path: '/',
+    name: 'Home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: AboutView,
+    meta: {
+      requiresAuth: true
     }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginView
+  },
+  {
+    path: '/access-denied',
+    name: 'AccessDenied',
+    component: AccessDeniedView
+  },
+  {
+    path: '/FireLogin',
+    name: 'FireLogin',
+    component: FirebaseSigninView
+  },
+  {
+    path: '/FireRegister',
+    name: 'FireRegister',
+    component: FirebaseRegisterView
+  },
+  {
+    path: '/FireLogout',
+    name: 'FireLogout',
+    component: FirebaseLogoutView
+  }
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
+  history: createWebHistory(),
+  routes
 })
 
 router.beforeEach((to) => {
-    if (
-        to.meta.requiresAuth &&
-        !isAuthenticated.value
-    ) {
-        return {
-            name: 'AccessDenied',
-            query: {
-                redirect: to.fullPath
-            }
-        }
+  if (to.meta.requiresAuth && !isAuthenticated.value) {
+    return {
+      name: 'AccessDenied',
+      query: {
+        redirect: to.fullPath
+      }
     }
+  }
 
-    if (
-        to.name === 'Login' &&
-        isAuthenticated.value
-    ) {
-        return {
-            name: 'About'
-        }
+  if (to.name === 'Login' && isAuthenticated.value) {
+    return {
+      name: 'About'
     }
+  }
 
-    return true
+  return true
 })
 
 export default router
