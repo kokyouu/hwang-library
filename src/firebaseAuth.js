@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { onAuthStateChanged } from 'firebase/auth'
 
-import { auth } from './firebase'
+import { auth } from './firebase/init'
 
 export const firebaseUser = ref(null)
 export const firebaseRole = ref('')

@@ -13,7 +13,7 @@ import Aura from '@primevue/themes/aura'
 /*
  * Initialize Firebase before the Vue application is mounted.
  */
-import './firebase'
+import './firebase/init'
 
 const app = createApp(App)
 

@@ -71,7 +71,7 @@
 import { ref } from 'vue'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 
-import { auth } from '../firebase'
+import { auth } from '../firebase/init'
 import { saveFirebaseRole } from '../firebaseAuth'
 
 const email = ref('')

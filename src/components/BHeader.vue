@@ -11,6 +11,12 @@
             <RouterLink to="/about" class="nav-link" active-class="active"> About </RouterLink>
           </li>
 
+          <li class="nav-item">
+            <RouterLink to="/addbook" class="nav-link" active-class="active">
+              Add Books
+            </RouterLink>
+          </li>
+
           <!-- Lab 5 local authentication -->
           <li v-if="!isAuthenticated" class="nav-item">
             <RouterLink to="/login" class="nav-link" active-class="active">

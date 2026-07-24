@@ -67,7 +67,7 @@
 import { ref } from 'vue'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
-import { auth } from '../firebase'
+import { auth } from '../firebase/init'
 import { firebaseRole, firebaseUser } from '../firebaseAuth'
 
 const email = ref('')
