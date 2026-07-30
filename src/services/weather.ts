@@ -93,8 +93,15 @@ export async function searchWeatherByCity(query: string): Promise<WeatherResult>
   if (openWeatherKey) return fetchOpenWeather({ q: query })
 
   const [cityName, requestedCountry] = query.split(',').map((part) => part.trim())
+  const countryCode = requestedCountry?.length === 2 ? requestedCountry.toUpperCase() : undefined
   const response = await axios.get('https://geocoding-api.open-meteo.com/v1/search', {
-    params: { name: requestedCountry ? query : cityName, count: 10, language: 'en', format: 'json' },
+    params: {
+      name: cityName,
+      count: 10,
+      language: 'en',
+      format: 'json',
+      ...(countryCode ? { countryCode } : {}),
+    },
   })
   const results = (response.data.results ?? []) as OpenMeteoPlace[]
   const countryMatch = requestedCountry
