@@ -415,6 +415,14 @@ def build_report() -> None:
             max_height=15.0 * cm,
         )
     )
+    story.append(
+        evidence(
+            "fig13_current_location.png",
+            "Figure 3. Browser result for the authorised current location in Celsius using Open-Meteo.",
+            styles,
+            max_height=9.2 * cm,
+        )
+    )
     story.append(Paragraph("3.2 Search weather by city", styles["H2"]))
     story.append(
         Paragraph(
@@ -427,7 +435,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig07_weather_service_code.png",
-            "Figure 3. Weather API request, country matching and result mapping.",
+            "Figure 4. Weather API request, country matching and result mapping.",
             styles,
             max_height=14.0 * cm,
         )
@@ -435,7 +443,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig01_weather_clayton.png",
-            "Figure 4. Browser result for Clayton, AU in Celsius with a clear-sky icon.",
+            "Figure 5. Browser result for Clayton, AU in Celsius with a clear-sky icon.",
             styles,
             max_height=10.2 * cm,
         )
@@ -454,7 +462,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig08_count_api_code.png",
-            "Figure 5. CountBookAPI response calculation from authors.json.",
+            "Figure 6. CountBookAPI response calculation from authors.json.",
             styles,
             max_height=11.3 * cm,
         )
@@ -462,7 +470,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig02_count_book_api.png",
-            "Figure 6. Browser response showing authorsCount 3 and totalBooks 6.",
+            "Figure 7. Browser response showing authorsCount 3 and totalBooks 6.",
             styles,
             max_height=10.2 * cm,
         )
@@ -481,7 +489,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig09_all_books_code.png",
-            "Figure 7. GetAllBookAPI transformation and JSON response structure.",
+            "Figure 8. GetAllBookAPI transformation and JSON response structure.",
             styles,
             max_height=11.6 * cm,
         )
@@ -489,7 +497,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig03_all_books_api.png",
-            "Figure 8. GetAllBookAPI browser response showing count 6 and the first response records.",
+            "Figure 9. GetAllBookAPI browser response showing count 6 and the first response records.",
             styles,
             max_height=10.0 * cm,
         )
@@ -497,7 +505,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig04_all_books_api_continued.png",
-            "Figure 9. Continued browser response showing all remaining books and the closing JSON structure.",
+            "Figure 10. Continued browser response showing all remaining books and the closing JSON structure.",
             styles,
             max_height=10.0 * cm,
         )
@@ -517,7 +525,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig10_weather_test_code.png",
-            "Figure 10. Unit coverage for external weather-code mapping.",
+            "Figure 11. Unit coverage for external weather-code mapping.",
             styles,
             max_height=7.0 * cm,
         )
@@ -525,7 +533,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "mobile_weather_check.png",
-            "Figure 11. Responsive Weather Check page at a 390-pixel mobile viewport.",
+            "Figure 12. Responsive Weather Check page at a 390-pixel mobile viewport.",
             styles,
             max_height=13.2 * cm,
         )
@@ -544,7 +552,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig11_git_history.png",
-            "Figure 12. Git history showing the focused Lab 10 implementation and test commits.",
+            "Figure 13. Git history showing the focused Lab 10 implementation and test commits.",
             styles,
             max_height=9.0 * cm,
         )
@@ -552,7 +560,7 @@ def build_report() -> None:
     story.append(
         evidence(
             "fig12_github_history.png",
-            "Figure 13. GitHub commit history for the pushed lab10-api branch.",
+            "Figure 14. GitHub commit history for the pushed lab10-api branch.",
             styles,
             max_height=10.0 * cm,
         )

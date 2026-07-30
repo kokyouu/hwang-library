@@ -61,7 +61,7 @@ async function fetchCurrentLocationWeather() {
       loading.value = false
       error.value = `Unable to use current location: ${geolocationError.message}`
     },
-    { enableHighAccuracy: false, timeout: 10000 },
+    { enableHighAccuracy: false, timeout: 30000, maximumAge: 300000 },
   )
 }
 
