@@ -1,22 +1,156 @@
+:root {
+  color: #202124;
+  background: #f4f5f7;
+  font-family: Inter, 'Segoe UI', Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 36px 0 56px;
+}
+
+.page-heading {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #a01d2d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
 h1 {
-    text-align: center;
-    margin-top: 20px;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+  color: #17181a;
+  font-size: 2rem;
+  line-height: 1.15;
+  letter-spacing: 0;
 }
 
-.form {
-    text-align: center;
-    margin-top: 50px;
+h2 {
+  color: #25272a;
+  font-size: 1.05rem;
+  letter-spacing: 0;
 }
 
-#username:focus,
-#password:focus,
-#isAustralian:focus,
-#reason:focus {
-    border: 4px solid #FF6347;
-    background-color: #FFEBE8;
+.subtitle {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: #62666b;
+  line-height: 1.55;
 }
 
-select[id="gender"] {
-    background-color: #d3d3d3;
+.panel {
+  border: 1px solid #d9dcdf;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(30, 33, 36, 0.06);
+}
+
+.primary-button,
+.secondary-button,
+.icon-button {
+  min-height: 42px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 650;
+}
+
+.primary-button {
+  border: 1px solid #a01d2d;
+  padding: 0 18px;
+  color: #fff;
+  background: #a01d2d;
+}
+
+.primary-button:hover {
+  background: #7f1724;
+}
+
+.secondary-button {
+  border: 1px solid #b9bdc2;
+  padding: 0 16px;
+  color: #323438;
+  background: #fff;
+}
+
+.secondary-button:hover {
+  background: #f0f1f2;
+}
+
+.status-message {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-left: 4px solid #b3261e;
+  border-radius: 2px;
+  color: #7a1a15;
+  background: #fff1f0;
+}
+
+.json-output {
+  margin: 0;
+  overflow: auto;
+  border-radius: 0 0 6px 6px;
+  padding: 22px;
+  color: #e8eaed;
+  background: #202124;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (max-width: 720px) {
+  .page-shell {
+    width: min(100% - 24px, 1120px);
+    padding-top: 24px;
+  }
+
+  h1 {
+    font-size: 1.65rem;
+  }
 }
