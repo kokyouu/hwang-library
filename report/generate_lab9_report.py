@@ -275,7 +275,7 @@ def monochrome_table(data: list[list[str]], widths: list[float], header: bool = 
         ("FONTNAME", (0, 0), (-1, 0), "Arial-Bold"),
         ("FONTNAME", (0, 1), (-1, -1), "Arial"),
         ("FONTSIZE", (0, 0), (-1, -1), 8.8),
-        ("GRID", (0, 0), (-1, -1), 0.55, colors.black),
+        ("GRID", (0, 0), (-1, -1), 0.45, colors.HexColor("#B8B8B8")),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
         ("LEFTPADDING", (0, 0), (-1, -1), 7),
         ("RIGHTPADDING", (0, 0), (-1, -1), 7),
@@ -283,13 +283,6 @@ def monochrome_table(data: list[list[str]], widths: list[float], header: bool = 
         ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
         ("TEXTCOLOR", (0, 0), (-1, -1), colors.black),
     ]
-    if header:
-        commands.extend(
-            [
-                ("BACKGROUND", (0, 0), (-1, 0), colors.black),
-                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-            ]
-        )
     table.setStyle(TableStyle(commands))
     return table
 
