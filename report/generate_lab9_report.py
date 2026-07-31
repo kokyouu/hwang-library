@@ -177,11 +177,10 @@ def monochrome_image(path: Path) -> Path:
 
 
 def scaled_image(path: Path, max_width: float = 16.6 * cm, max_height: float = 12.5 * cm) -> Image:
-    grayscale_path = monochrome_image(path)
-    with PILImage.open(grayscale_path) as source:
+    with PILImage.open(path) as source:
         width, height = source.size
     scale = min(max_width / width, max_height / height)
-    return Image(str(grayscale_path), width=width * scale, height=height * scale)
+    return Image(str(path), width=width * scale, height=height * scale)
 
 
 def evidence(
