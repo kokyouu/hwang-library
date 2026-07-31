@@ -5,7 +5,7 @@ from pathlib import Path
 from textwrap import wrap
 
 from PIL import Image as PILImage
-from PIL import ImageDraw, ImageFont
+from PIL import ImageDraw, ImageFont, ImageOps
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
@@ -31,6 +31,7 @@ FIGURES = REPORT_DIR / "figures"
 OUTPUT_DIR = ROOT / "output" / "pdf"
 OUTPUT_PDF = OUTPUT_DIR / "FIT5032_Assessed_Lab_10_Report_Han_Wang.pdf"
 LOGO = REPORT_DIR / "monash-university-vector-logo.png"
+MONOCHROME_DIR = ROOT / "tmp" / "pdfs" / "lab10_monochrome"
 
 STUDENT_NAME = "Han Wang"
 STUDENT_ID = "36668664"
@@ -108,7 +109,7 @@ def render_text_panel(
     image = PILImage.new("RGB", (width, height), "#202124")
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, width, header_height), fill="#2c2e31")
-    draw.rectangle((0, 0, 12, header_height), fill="#a01d2d")
+    draw.rectangle((0, 0, 12, header_height), fill="#000000")
     draw.text((margin, 23), title, font=title_font, fill="#ffffff")
     draw.text((margin, 63), subtitle, font=subtitle_font, fill="#b9bdc2")
 
@@ -181,11 +182,23 @@ def generate_code_figures() -> None:
     )
 
 
-def scaled_image(path: Path, max_width: float = 16.6 * cm, max_height: float = 12.4 * cm) -> Image:
+def monochrome_image(path: Path) -> Path:
+    MONOCHROME_DIR.mkdir(parents=True, exist_ok=True)
+    output = MONOCHROME_DIR / f"{path.stem}_grayscale.png"
     with PILImage.open(path) as source:
+        rgba_source = source.convert("RGBA")
+        white_background = PILImage.new("RGBA", rgba_source.size, "white")
+        white_background.alpha_composite(rgba_source)
+        ImageOps.grayscale(white_background.convert("RGB")).save(output)
+    return output
+
+
+def scaled_image(path: Path, max_width: float = 16.6 * cm, max_height: float = 12.4 * cm) -> Image:
+    grayscale_path = monochrome_image(path)
+    with PILImage.open(grayscale_path) as source:
         width, height = source.size
     scale = min(max_width / width, max_height / height)
-    return Image(str(path), width=width * scale, height=height * scale)
+    return Image(str(grayscale_path), width=width * scale, height=height * scale)
 
 
 def evidence(path: str, caption: str, styles: dict[str, ParagraphStyle], max_height: float = 12.4 * cm):
@@ -208,7 +221,7 @@ def build_styles() -> dict[str, ParagraphStyle]:
             fontName="Arial",
             fontSize=10.2,
             leading=14.4,
-            textColor=colors.HexColor("#2d3033"),
+            textColor=colors.black,
             spaceAfter=7,
         ),
         "H1": ParagraphStyle(
@@ -238,7 +251,7 @@ def build_styles() -> dict[str, ParagraphStyle]:
             fontSize=8.4,
             leading=11,
             alignment=TA_CENTER,
-            textColor=colors.HexColor("#55595e"),
+            textColor=colors.black,
         ),
         "CoverTitle": ParagraphStyle(
             "CoverTitle",
@@ -264,7 +277,7 @@ def build_styles() -> dict[str, ParagraphStyle]:
             fontName="Arial",
             fontSize=8.8,
             leading=12,
-            textColor=colors.HexColor("#5f6368"),
+            textColor=colors.black,
         ),
     }
 
@@ -272,11 +285,11 @@ def build_styles() -> dict[str, ParagraphStyle]:
 def page_decorator(canvas, doc) -> None:
     canvas.saveState()
     if doc.page > 1:
-        canvas.setStrokeColor(colors.HexColor("#d6d9dc"))
+        canvas.setStrokeColor(colors.black)
         canvas.setLineWidth(0.5)
         canvas.line(2.15 * cm, A4[1] - 1.45 * cm, A4[0] - 2.15 * cm, A4[1] - 1.45 * cm)
         canvas.setFont("Arial", 8.2)
-        canvas.setFillColor(colors.HexColor("#5f6368"))
+        canvas.setFillColor(colors.black)
         canvas.drawCentredString(
             A4[0] / 2,
             A4[1] - 1.15 * cm,
@@ -304,7 +317,7 @@ def build_report() -> None:
     )
     story = []
 
-    story.append(Image(str(LOGO), width=16.3 * cm, height=3.62 * cm))
+    story.append(Image(str(monochrome_image(LOGO)), width=16.3 * cm, height=3.62 * cm))
     story.append(Spacer(1, 1.35 * cm))
     story.append(Paragraph("MONASH UNIVERSITY", styles["CoverSub"]))
     story.append(Spacer(1, 0.25 * cm))
@@ -333,8 +346,9 @@ def build_report() -> None:
                 ("FONTNAME", (0, 0), (0, -1), "Arial-Bold"),
                 ("FONTNAME", (1, 0), (1, -1), "Arial"),
                 ("FONTSIZE", (0, 0), (-1, -1), 9.2),
-                ("GRID", (0, 0), (-1, -1), 0.6, colors.HexColor("#9ca0a5")),
-                ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#f1f2f3")),
+                ("TEXTCOLOR", (0, 0), (-1, -1), colors.black),
+                ("GRID", (0, 0), (-1, -1), 0.6, colors.black),
+                ("BACKGROUND", (0, 0), (0, -1), colors.white),
                 ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
                 ("LEFTPADDING", (0, 0), (-1, -1), 9),
             ]
@@ -370,9 +384,10 @@ def build_report() -> None:
                 ("FONTNAME", (0, 0), (-1, 0), "Arial-Bold"),
                 ("FONTNAME", (0, 1), (-1, -1), "Arial"),
                 ("FONTSIZE", (0, 0), (-1, -1), 9),
-                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#8e1928")),
+                ("BACKGROUND", (0, 0), (-1, 0), colors.black),
                 ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-                ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#c8ccd0")),
+                ("TEXTCOLOR", (0, 1), (-1, -1), colors.black),
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ("LEFTPADDING", (0, 0), (-1, -1), 7),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 7),
