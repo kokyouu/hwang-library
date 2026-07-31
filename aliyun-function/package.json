@@ -1,0 +1,13 @@
+{
+  "name": "fit5032-lab9-hwang-library-function",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test server.node-test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

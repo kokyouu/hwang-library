@@ -29,7 +29,7 @@ async function loadBookCount() {
       <p class="eyebrow">Assessed Lab 9</p>
       <h1>Book Counter</h1>
       <p class="subtitle">
-        A Vue client calling a Cloudflare Pages Function that counts live records in Firestore.
+        A Vue client calling Alibaba Cloud Function Compute to count live records in Firestore.
       </p>
     </header>
 
