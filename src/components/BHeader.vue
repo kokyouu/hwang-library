@@ -1,31 +1,35 @@
 <script setup lang="ts">
-import { BookOpen, Braces, CloudSun } from 'lucide-vue-next'
+import { BookOpenCheck, Braces, CloudSun, ShoppingBag } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 </script>
 
 <template>
   <header class="site-header">
     <div class="header-inner">
-      <RouterLink class="brand" to="/WeatherCheck" aria-label="Hwang Library API Lab">
+      <RouterLink class="brand" to="/BookCounter" aria-label="Hwang Library Cloud Lab">
         <span class="brand-mark">HL</span>
         <span>
           <strong>Hwang Library</strong>
-          <small>API Lab</small>
+          <small>Cloud Lab</small>
         </span>
       </RouterLink>
 
       <nav aria-label="Primary navigation">
-        <RouterLink to="/WeatherCheck">
-          <CloudSun :size="18" aria-hidden="true" />
-          <span>Get Weather</span>
+        <RouterLink to="/BookCounter">
+          <BookOpenCheck :size="18" aria-hidden="true" />
+          <span>Book Counter</span>
         </RouterLink>
-        <RouterLink to="/CountBookAPI">
-          <BookOpen :size="18" aria-hidden="true" />
-          <span>Book Stats API</span>
+        <RouterLink to="/DataMarketplace">
+          <ShoppingBag :size="18" aria-hidden="true" />
+          <span>Data Marketplace</span>
         </RouterLink>
         <RouterLink to="/GetAllBookAPI">
           <Braces :size="18" aria-hidden="true" />
           <span>All Books API</span>
+        </RouterLink>
+        <RouterLink to="/WeatherCheck">
+          <CloudSun :size="18" aria-hidden="true" />
+          <span>Weather</span>
         </RouterLink>
       </nav>
     </div>
@@ -126,7 +130,7 @@ nav a.router-link-active {
   nav {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   nav a {

@@ -4,8 +4,8 @@ import App from '../App.vue'
 import router from '../router'
 
 describe('App', () => {
-  it('renders the Lab 10 weather route and API navigation', async () => {
-    await router.push('/WeatherCheck')
+  it('renders the Lab 9 book counter and cloud navigation', async () => {
+    await router.push('/BookCounter')
     await router.isReady()
 
     const wrapper = mount(App, {
@@ -14,8 +14,8 @@ describe('App', () => {
       },
     })
 
-    expect(wrapper.get('h1').text()).toBe('Weather Check')
-    expect(wrapper.text()).toContain('Book Stats API')
-    expect(wrapper.text()).toContain('All Books API')
+    expect(wrapper.get('h1').text()).toBe('Book Counter')
+    expect(wrapper.text()).toContain('Data Marketplace')
+    expect(wrapper.text()).toContain('Get Book Count')
   })
 })
